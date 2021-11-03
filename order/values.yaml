@@ -1,0 +1,53 @@
+deployment:
+  name: order-temp
+  namespace: staging 
+  replicas: 1
+  image: ${artifact.metadata.image}
+  #namespace: ${infra.kubernetes.namespace}
+  resources:
+    limits:
+        cpu: 500m
+        memory: 512Mi
+    requests:
+        cpu: 100m
+        memory: 256Mi
+  env:
+    config:
+      UseKafka: false
+      consumer__groupid: "plancreated"
+      consumer__enableautocommit: true
+      consumer__statisticsintervalms: 5000
+      consumer__sessiontimeoutms: 6000
+      consumer__autooffsetreset: 0
+      consumer__enablepartitioneof: true
+      Auth0__Authority: "https://a4media.us.auth0.com/"
+      Auth0__Audience: "https://frontend-staging.aaaadev.com/api"
+      Auth0__RequiredAuthorization: true
+      GatewayUrl: "https://gateway-staging.aaaadev.com/graphql/"
+      MuleSoft__ClientURI: "https://npp-interface-staging.us-e1.cloudhub.io/api/"
+      MuleSoft__ClientId: "5cd78b8280444c4aad89b3e17a232c6f"
+      MulesoftServiceSettings__SFAccessTokenKey: "https://a4media.us/localfirst/salesforce_access_token"
+    secrets:
+      names:
+        - order-secrets
+
+
+
+# Service Type allow you to specify what kind of service you want.
+# Possible values for ServiceType are:
+# ClusterIP | NodePort | LoadBalancer | ExternalName
+#serviceName: order-svc
+#serviceType: ClusterIP
+
+# A Service can map an incoming port to any targetPort.
+# targetPort is where application is listening on inside the container.
+#port: 80
+#serviceTargetPort: 80
+#portname: tcp-order
+# readinessProbe and livenessProbe definitions
+# readiness_path: /ready
+# liveness_path: /live
+# Specify all environment variables to be added to the container.
+# The following two maps, config and secrets, are put into a ConfigMap
+# and a Secret, respectively.
+# Both are added to the container environment in podSpec as envFrom source.
