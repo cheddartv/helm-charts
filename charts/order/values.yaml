@@ -5,11 +5,11 @@ deployment:
   image: ${artifact.metadata.image}
   resources:
     limits:
-        cpu: 500m
-        memory: 512Mi
+      cpu: 500m
+      memory: 512Mi
     requests:
-        cpu: 100m
-        memory: 256Mi
+      cpu: 100m
+      memory: 256Mi
   env:
     config:
       UseKafka: false
