@@ -3,7 +3,7 @@ deployment:
   namespace: staging 
   replicas: 1
   image: ${artifact.metadata.image}
-  #namespace: ${infra.kubernetes.namespace}
+# namespace: ${infra.kubernetes.namespace}
   resources:
     limits:
         cpu: 500m
@@ -36,14 +36,14 @@ deployment:
 # Service Type allow you to specify what kind of service you want.
 # Possible values for ServiceType are:
 # ClusterIP | NodePort | LoadBalancer | ExternalName
-#serviceName: order-svc
-#serviceType: ClusterIP
+# serviceName: order-svc
+# serviceType: ClusterIP
 
 # A Service can map an incoming port to any targetPort.
 # targetPort is where application is listening on inside the container.
-#port: 80
-#serviceTargetPort: 80
-#portname: tcp-order
+# port: 80
+# serviceTargetPort: 80
+# portname: tcp-order
 # readinessProbe and livenessProbe definitions
 # readiness_path: /ready
 # liveness_path: /live
@@ -51,3 +51,4 @@ deployment:
 # The following two maps, config and secrets, are put into a ConfigMap
 # and a Secret, respectively.
 # Both are added to the container environment in podSpec as envFrom source.
+
