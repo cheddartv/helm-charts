@@ -1,7 +1,11 @@
 apiVersion: v2
 name: order
 description: A Helm chart for Kubernetes
-
+maintainers: 
+  - email: pankaj.narang@cheddar.com
+    name: PankajNarang
+  - email: paul.jones@cheddar.com
+    name: PaulJones
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
