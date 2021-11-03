@@ -1,6 +1,6 @@
 deployment:
   name: order-temp
-  namespace: staging 
+  namespace: staging
   replicas: 1
   image: ${artifact.metadata.image}
   resources:
@@ -29,4 +29,3 @@ deployment:
     secrets:
       names:
         - order-secrets
-        
