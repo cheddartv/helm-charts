@@ -15,9 +15,9 @@ deployment:
       UseKafka: "false"
       consumer__groupid: "plancreated"
       consumer__enableautocommit: "true"
-      consumer__statisticsintervalms: 5000
-      consumer__sessiontimeoutms: 6000
-      consumer__autooffsetreset: 0
+      consumer__statisticsintervalms: "5000"
+      consumer__sessiontimeoutms: "6000"
+      consumer__autooffsetreset: "0"
       consumer__enablepartitioneof: "true"
       Auth0__Authority: "https://a4media.us.auth0.com/"
       Auth0__Audience: "https://frontend-staging.aaaadev.com/api"
