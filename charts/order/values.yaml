@@ -12,7 +12,7 @@ deployment:
       memory: 256Mi
   env:
     config:
-      UseKafka: false
+      UseKafka: "false"
       consumer__groupid: "plancreated"
       consumer__enableautocommit: "true"
       consumer__statisticsintervalms: 5000
