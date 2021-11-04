@@ -1,13 +1,4 @@
-#Alpine: A simple Helm chart
+#Order: A simple Helm chart
 
-Run a single pod of Alpine Linux.
+Run a single pod of Order service from localfirst.
 
-This example was generated using the command `helm create alpine`.
-
-The `templates/` directory contains a very simple pod resource with a
-couple of parameters.
-
-The `values.yaml` file contains the default values for the
-`alpine-pod.yaml` template.
-
-You can install this example using `helm install ./alpine`.
