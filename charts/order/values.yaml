@@ -1,6 +1,0 @@
-deployment:
-  name: test
-  namespace: test
-  replicas: 1
-  image: test
-  
