@@ -1,0 +1,12 @@
+apiVersion: v2
+name: plan
+description: A Helm chart for Plan service in localfirst
+home: https://cheddartv.github.io/helm-charts
+sources:
+  - https://cheddartv.github.io/helm-charts
+maintainers:
+  - email: pankaj.narang@cheddar.com
+    name: PankajNarang
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
