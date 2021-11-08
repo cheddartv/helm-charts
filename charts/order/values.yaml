@@ -1,5 +1,5 @@
 deployment:
-  name: order-temp
+  name: temp
   namespace: staging
   replicas: 1
   image: ${artifact.metadata.image}
@@ -12,20 +12,7 @@ deployment:
       memory: 256Mi
   env:
     config:
-      UseKafka: "false"
-      consumer__groupid: "plancreated"
-      consumer__enableautocommit: "true"
-      consumer__statisticsintervalms: "5000"
-      consumer__sessiontimeoutms: "6000"
-      consumer__autooffsetreset: "0"
-      consumer__enablepartitioneof: "true"
-      Auth0__Authority: "https://a4media.us.auth0.com/"
-      Auth0__Audience: "https://frontend-staging.aaaadev.com/api"
-      Auth0__RequiredAuthorization: "true"
-      GatewayUrl: "https://gateway-staging.aaaadev.com/graphql/"
-      MuleSoft__ClientURI: "https://npp-interface-staging.us-e1.cloudhub.io/api/"
-      MuleSoft__ClientId: "5cd78b8280444c4aad89b3e17a232c6f"
-      MulesoftServiceSettings__SFAccessTokenKey: "https://a4media.us/localfirst/salesforce_access_token"
+      UseMe: "false"
     secrets:
       names:
-        - order-secrets
+        - secrets
