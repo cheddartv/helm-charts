@@ -33,4 +33,21 @@ entries:
     urls:
     - https://github.com/cheddartv/helm-charts/releases/download/order-0.1.1/order-0.1.1.tgz
     version: 0.1.1
+  plan:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2021-11-09T15:10:09.102311801Z"
+    description: A Helm chart for Plan service in localfirst
+    digest: 9d6fa4549e229fea072a87a77a281c2d6a266975a5aa8182c356f07d0edb94f5
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: plan
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/plan-1.0.0/plan-1.0.0.tgz
+    version: 1.0.0
 generated: "2021-11-04T14:37:40.61234215Z"
