@@ -68,3 +68,4 @@ spec:
           {{- if .Values.deployment.env.cronjob.terminationGracePeriodSeconds}}
           terminationGracePeriodSeconds: {{.Values.deployment.env.cronjob.terminationGracePeriodSeconds}}
           {{- end}}
+{{- end}}
