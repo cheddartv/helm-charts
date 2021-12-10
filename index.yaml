@@ -20,6 +20,22 @@ entries:
   avails:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2021-12-10T21:49:09.817328209Z"
+    description: A Helm chart for Avails service in localfirst
+    digest: b30df1de368b53eecc1868588a140a2a7fdafc1bf4cfbc392d0df0c444d7c163
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: avails
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/avails-1.0.1/avails-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2021-12-10T18:02:12.048809414Z"
     description: A Helm chart for Avails service in localfirst
     digest: 58a5315007f1e73541ad728797ec8136e728780931d6fb342c7cde1a1b8ca9d1
