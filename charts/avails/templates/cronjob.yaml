@@ -41,7 +41,7 @@ spec:
             envFrom:
             {{- if .Values.deployment.env.cronjob.isConfig}}
             - configMapRef:
-                name: {{.Values.deployment.main.name}}
+                name: {{.Values.deployment.env.cronjob.name}}
             {{- end}}
             {{- if .Values.deployment.env.cronjob.isSecrets}}
             {{- range $value := .Values.deployment.env.secrets.names}}
