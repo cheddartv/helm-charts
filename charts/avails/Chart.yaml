@@ -1,6 +1,6 @@
 apiVersion: v2
 name: avails
-description: Adding Cronjob support
+description: Helm Chart for localfirst/avails with cronjob support
 home: https://cheddartv.github.io/helm-charts
 sources:
   - https://cheddartv.github.io/helm-charts
