@@ -1,20 +1,12 @@
 deployment:
-  configmap__name: "temp"
-  main:
-    name: temp
-    namespace: staging
-    replicas: 1
-    image: ${artifact.metadata.image}
-    resources:
-      limits:
-        cpu: 500m
-        memory: 512Mi
-      requests:
-        cpu: 100m
-        memory: 256Mi
+  namespace: ${infra.kubernetes.namespace}
+  configmap__name: "avails"
   env:
     config:
-      UseMe: "false"
+      Temp: "temp"
+    cronjob:
+      name: "temp"
+      Temp: "temp"
     secrets:
       names:
-        - secrets
+        - temp
