@@ -1,6 +1,6 @@
 apiVersion: v2
 name: avails
-description: A Helm chart for Avails service in localfirst
+description: Helm Chart for localfirst/avails with cronjob support
 home: https://cheddartv.github.io/helm-charts
 sources:
   - https://cheddartv.github.io/helm-charts
@@ -8,5 +8,5 @@ maintainers:
   - email: pankaj.narang@cheddar.com
     name: PankajNarang
 type: application
-version: 1.0.1
+version: 1.5.0
 appVersion: "1.0.0"

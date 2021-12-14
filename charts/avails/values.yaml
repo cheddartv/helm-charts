@@ -1,4 +1,5 @@
 deployment:
+  configmap__name: "temp"
   main:
     name: temp
     namespace: staging
