@@ -10,3 +10,4 @@ deployment:
     secrets:
       names:
         - temp
+        
