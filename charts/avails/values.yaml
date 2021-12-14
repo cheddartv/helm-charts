@@ -1,6 +1,6 @@
 deployment:
   configmap__name: "temp"
-  main:
+  mains:
     name: temp
     namespace: staging
     replicas: 1
