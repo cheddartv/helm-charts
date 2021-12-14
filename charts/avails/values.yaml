@@ -1,1 +1,13 @@
+deployment:
+  namespace: ${infra.kubernetes.namespace} 
+  configmap__name: "avails"
+  env:
+    config:
+      Temp: "temp"
+    cronjob:
+      name: "temp"
+      Temp: "temp" 
+    secrets:
+      names:
+        - temp
 
