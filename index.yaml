@@ -1,5 +1,22 @@
 apiVersion: v1
 entries:
+  DigitalPlan:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2021-12-17T07:54:45.558439273Z"
+    description: Helm Chart for localfirst/DigitalPlan
+    digest: 00c1a78ba09db8a649d809653c4f54aedc60a6b3572c3f3e3396d7c97ad63a43
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: DigitalPlan
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/DigitalPlan-1.5.0/DigitalPlan-1.5.0.tgz
+    version: 1.5.0
   UserManagement:
   - apiVersion: v2
     appVersion: 1.0.0
