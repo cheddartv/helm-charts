@@ -1,5 +1,22 @@
 apiVersion: v1
 entries:
+  DigitalAudience:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2021-12-17T08:12:39.937287922Z"
+    description: Helm Chart for localfirst/Digital.Audience
+    digest: 0c956386a49e043584a88716783a06e19c54768510a64471952166e50a84f339
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: DigitalAudience
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/DigitalAudience-1.5.0/DigitalAudience-1.5.0.tgz
+    version: 1.5.0
   DigitalPlan:
   - apiVersion: v2
     appVersion: 1.0.0
