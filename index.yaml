@@ -34,6 +34,23 @@ entries:
     urls:
     - https://github.com/cheddartv/helm-charts/releases/download/DigitalPlan-1.5.0/DigitalPlan-1.5.0.tgz
     version: 1.5.0
+  Reporting:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-01-11T03:07:48.696046458Z"
+    description: Helm Chart for localfirst/Reporting
+    digest: 475cbbc4dc9f30f02650ee9c25cf4994e1d07d545ffea81b72c762c9dec2401b
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: Reporting
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/Reporting-1.5.0/Reporting-1.5.0.tgz
+    version: 1.5.0
   UserManagement:
   - apiVersion: v2
     appVersion: 1.0.0
