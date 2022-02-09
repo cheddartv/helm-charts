@@ -1,12 +1,6 @@
 name: Helm dry run
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - charts/DigitalAudience/**
-      - .github/workflows/digitalaudience-test.yml
   pull_request:
     paths:
       - charts/DigitalAudience/**
