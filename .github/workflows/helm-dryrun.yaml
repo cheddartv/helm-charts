@@ -64,11 +64,11 @@ jobs:
 
       - name: Helm dry run (install)
         run: |
- 
+          
           if [[ exit == true ]] 
           then
                echo "No changes are on charts and ending workflow"
           else
 	       helm install ${{ env.folderName }} --dry-run --debug -f localfirst/$VALUES_PATH/k8s/staging/values.yaml charts/${{ env.folderName }}
-	       helm install ${{ env.folderName }} --dry-run --debug -f localfirst/$VALUES_PATH/k8s/prod/values.yaml charts/${{ env.folderName }}
+               helm install ${{ env.folderName }} --dry-run --debug -f localfirst/$VALUES_PATH/k8s/prod/values.yaml charts/${{ env.folderName }}
           fi
