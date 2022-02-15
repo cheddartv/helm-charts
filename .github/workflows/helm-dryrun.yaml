@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: cheddartv/localfirst
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           path: localfirst
           ref: main
 
