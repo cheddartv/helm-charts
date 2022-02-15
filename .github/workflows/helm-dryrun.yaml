@@ -63,7 +63,8 @@ jobs:
         run: echo "$VALUES_PATH"
 
       - name: Helm dry run (install)
-        run: 
+        run: |
+ 
           if [[ exit == true ]] 
           then
                echo "No changes are on charts and ending workflow"
