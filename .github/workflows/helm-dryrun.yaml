@@ -1,0 +1,46 @@
+name: Helm dry run
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - main
+    paths:
+      - charts/**
+      - .github/workflows/helm-dryrun.yaml
+
+jobs:
+  helm-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.4.1
+
+      - name: Clone localfirst repository
+        uses: actions/checkout@v2
+        with:
+          repository: cheddartv/localfirst
+          path: localfirst
+          ref: main
+
+      - name: changed-files
+        uses: pankajnarang/last_commit@main
+
+      - name: Check the output for folder name
+        run: echo "${{ env.folderName }}"
+
+      - name: Original value path if folder with multiple words
+        run: PATH=$(echo "${{ env.folderName }}" | sed -e 's/[A-Z]/ &/g' -e 's/^ //g' -e 's/ /./g')
+
+      - name: Check the app path to original values
+        run: echo "$PATH"
+        
+      - name: Helm dry run (install)
+        run: helm install ${{ env.folderName }} --dry-run --debug -f localfirst/$PATH/k8s/staging/values.yaml charts/${{ env.folderName }}
