@@ -1,6 +1,0 @@
-deployment:
-  namespace: ${infra.kubernetes.namespace}
-  configmap__name: "mediaplan"
-  env:
-    config:
-    secrets:
