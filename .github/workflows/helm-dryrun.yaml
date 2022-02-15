@@ -56,7 +56,7 @@ jobs:
       - name: Helm dry run (install)
         run: |
           
-          if [[  ${{ env.folderName }} == ".github" ]] 
+          if [[ ! -d charts/${{ env.folderName }} ]] 
           then
                echo "No changes are on charts and ending workflow"
           else
