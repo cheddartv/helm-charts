@@ -37,15 +37,6 @@ jobs:
       - name: Check the output for folder name
         run: echo "${{ env.folderName }}"
 
-      - name: Exiting workflow if changes are on github workflow
-        run: |
-         
-          if [[ ${{ env.folderName }} == ".github" ]]
-          then
-               echo "No changes are made in charts"
-               exit=true
-          fi
-
       - name: Original value path if folder with multiple words
         run: |
         
@@ -69,6 +60,6 @@ jobs:
           then
                echo "No changes are on charts and ending workflow"
           else
-               helm install ${{ env.folderName }} --dry-run --debug -f localfirst/$VALUES_PATH/k8s/staging/values.yaml charts/${{ env.folderName }}
-               helm install ${{ env.folderName }} --dry-run --debug -f localfirst/$VALUES_PATH/k8s/prod/values.yaml charts/${{ env.folderName }}
+               helm install ${{ env.folderName }} --dry-run --debug -f localfirst/$VALUES_PATH/k8s/staging/helm-values.yaml charts/${{ env.folderName }}
+               helm install ${{ env.folderName }} --dry-run --debug -f localfirst/$VALUES_PATH/k8s/prod/helm-values.yaml charts/${{ env.folderName }}
           fi
