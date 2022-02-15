@@ -64,7 +64,7 @@ jobs:
 
       - name: Helm dry run (install)
         run: 
-          if exit==true
+          if [[ exit == true ]] 
           then
                echo "No changes are on charts and ending workflow"
           else
