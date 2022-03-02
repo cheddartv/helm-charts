@@ -34,6 +34,23 @@ entries:
     urls:
     - https://github.com/cheddartv/helm-charts/releases/download/DigitalPlan-1.5.0/DigitalPlan-1.5.0.tgz
     version: 1.5.0
+  Febreze:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-03-02T20:05:49.357718913Z"
+    description: Helm Chart for localfirst/MediaPlan
+    digest: 1b8d0a0a04bbb2c117c91888ac69a902e9ed6781f64777158e501ebc82f49a03
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: priya.bommineni@cheddar.com
+      name: PriyaBommineni
+    name: Febreze
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/Febreze-1.5.0/Febreze-1.5.0.tgz
+    version: 1.5.0
   Reporting:
   - apiVersion: v2
     appVersion: 1.0.0
