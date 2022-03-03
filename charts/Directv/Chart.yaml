@@ -1,6 +1,6 @@
 apiVersion: v2
 name: Directv
-description: Helm Chart for localfirst/MediaPlan
+description: Helm Chart for localfirst/Directv
 home: https://cheddartv.github.io/helm-charts
 sources:
   - https://cheddartv.github.io/helm-charts
