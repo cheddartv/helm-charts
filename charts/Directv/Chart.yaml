@@ -1,0 +1,12 @@
+apiVersion: v2
+name: Directv
+description: Support for the Prometheus Exporter
+home: https://cheddartv.github.io/helm-charts
+sources:
+  - https://cheddartv.github.io/helm-charts
+maintainers:
+  - email: priya.bommineni@cheddar.com
+    name: PriyaBommineni
+type: application
+version: 1.5.1
+appVersion: "1.0.0"
