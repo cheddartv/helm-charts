@@ -105,10 +105,10 @@ spec:
             memory: {{.Values.deployment.main.resources.requests.memory}}
         {{- end}}
         {{- end}}
-        {{- if .Values.deployment.main.port}}
+        {{- if .Values.deployment.main.ports}}
         ports:
-        - containerPort: {{.Values.deployment.main.port}}
-          name: {{.Values.deployment.main.portname}}
+        - name: {{.Values.deployment.main.ports.name}}
+          containerPort: {{.Values.deployment.main.ports.containerPort}}
         {{- end}}
         {{- if .Values.deployment.main.multi_ports}}
         ports: {{.Values.deployment.main.multi_ports | toYaml | trim | nindent 8}}
