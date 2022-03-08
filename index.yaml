@@ -34,6 +34,23 @@ entries:
     urls:
     - https://github.com/cheddartv/helm-charts/releases/download/DigitalPlan-1.5.0/DigitalPlan-1.5.0.tgz
     version: 1.5.0
+  Directv:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-03-08T20:36:26.753015508Z"
+    description: Support for the Prometheus Exporter
+    digest: 88fbcea61205cbc9c19bae3797d3863905fc34e3292c063310462c4ebd00babe
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: priya.bommineni@cheddar.com
+      name: PriyaBommineni
+    name: Directv
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/Directv-1.5.1/Directv-1.5.1.tgz
+    version: 1.5.1
   Febreze:
   - apiVersion: v2
     appVersion: 1.0.0
