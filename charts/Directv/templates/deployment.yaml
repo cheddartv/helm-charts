@@ -118,7 +118,7 @@ spec:
         {{- end}}
       {{- if .Values.deployment.main.promExporter}}
       - name: {{.Values.deployment.main.promExporter.name}}
-        image: {{.Values.deployment.main.image}}
+        image: {{.Values.deployment.main.promExporter.image}}
         {{- if .Values.deployment.main.promExporter.command}}
         command: {{.Values.deployment.main.promExporter.command}}
         {{- end}}
@@ -128,12 +128,13 @@ spec:
           - {{$arg | quote}}
           {{- end}}
         {{- end}}
-        {{- if .Values.deployment.main.promExporter.port}}
+        {{- if .Values.deployment.main.promExporter.ports}}
         ports:
-        - containerPort: {{.Values.deployment.main.promExporter.port}}
+        - name: {{.Values.deployment.main.promExporter.ports.name}}
+          containerPort: {{.Values.deployment.main.promExporter.ports.containerPort}}
         {{- end}}
-        {{- if .Values.deployment.main.promExporter_resources}}
-        resources: {{.Values.deployment.main.promExporter_resources | toYaml | trim | nindent 10}}
+        {{- if .Values.deployment.main.promExporter.resources}}
+        resources: {{.Values.deployment.main.promExporter.resources | toYaml | trim | nindent 10}}
         {{- end }}
       {{- end }}
 {{- end}}
