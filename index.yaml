@@ -51,6 +51,23 @@ entries:
     urls:
     - https://github.com/cheddartv/helm-charts/releases/download/Directv-1.5.1/Directv-1.5.1.tgz
     version: 1.5.1
+  EmailSender:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-05-24T15:45:14.887821954Z"
+    description: Helm Chart for localfirst/MediaPlan
+    digest: ab6547ffe4bfb93c81e14ce1863c2cd561e2785e4845e94ee2f29c3c1baa92d0
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: priya.bommineni@cheddar.com
+      name: PriyaBommineni
+    name: EmailSender
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/EmailSender-1.5.0/EmailSender-1.5.0.tgz
+    version: 1.5.0
   Febreze:
   - apiVersion: v2
     appVersion: 1.0.0
