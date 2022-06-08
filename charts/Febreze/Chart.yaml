@@ -1,6 +1,6 @@
 apiVersion: v2
 name: Febreze
-description: Helm Chart for localfirst/MediaPlan
+description: Support for Env variables, fetching values from Azure Vault
 home: https://cheddartv.github.io/helm-charts
 sources:
   - https://cheddartv.github.io/helm-charts
@@ -8,5 +8,5 @@ maintainers:
   - email: priya.bommineni@cheddar.com
     name: PriyaBommineni
 type: application
-version: 1.5.0
+version: 1.5.1
 appVersion: "1.0.0"
