@@ -1,0 +1,6 @@
+deployment:
+  namespace: ${infra.kubernetes.namespace}
+  configmap__name: "digitalfrontend"
+  env:
+    config:
+    secrets:
