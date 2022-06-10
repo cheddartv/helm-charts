@@ -1,0 +1,12 @@
+apiVersion: v2
+name: Antenna
+description: Initial Helm chart release
+home: https://cheddartv.github.io/helm-charts
+sources:
+  - https://cheddartv.github.io/helm-charts
+maintainers:
+  - email: alexis.david@a4media.com
+    name: AlexisDavid
+type: application
+version: 1.5.1
+appVersion: "1.0.0"
