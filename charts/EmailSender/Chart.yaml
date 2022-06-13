@@ -1,12 +1,12 @@
 apiVersion: v2
-name: plan
-description: A Helm chart for Plan service in localfirst
+name: EmailSender
+description: Helm Chart for localfirst/MediaPlan
 home: https://cheddartv.github.io/helm-charts
 sources:
   - https://cheddartv.github.io/helm-charts
 maintainers:
-  - email: pankaj.narang@cheddar.com
-    name: PankajNarang
+  - email: priya.bommineni@cheddar.com
+    name: PriyaBommineni
 type: application
-version: 1.0.0
+version: 1.5.0
 appVersion: "1.0.0"

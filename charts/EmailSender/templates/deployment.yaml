@@ -79,18 +79,6 @@ spec:
           failureThreshold: {{or .Value.deployment.main.liveness_failure_threshold 5}}
           periodSeconds: {{or .Value.deployment.main.liveness_period 3}}
         {{- end}}
-
-        {{- if .Values.deployment.env.variable}}
-        env:
-          {{- range .Values.deployment.env.variable }}
-          - name: {{ .name }}
-            valueFrom:
-              secretKeyRef:
-                name: {{ .valueFrom.secretKeyRef.name }}
-                key: {{ .valueFrom.secretKeyRef.key }}
-          {{- end }} 
-        {{- end }} 
-        
         {{- if or .Values.deployment.env.config .Values.deployment.env.secrets}}
         envFrom:
         {{- if .Values.deployment.env.config}}

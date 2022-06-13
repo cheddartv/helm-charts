@@ -1,12 +1,12 @@
 apiVersion: v2
-name: Febreze
-description: Support for Env variables, fetching values from Azure Vault
+name: Antenna
+description: Initial Helm chart release
 home: https://cheddartv.github.io/helm-charts
 sources:
   - https://cheddartv.github.io/helm-charts
 maintainers:
-  - email: priya.bommineni@cheddar.com
-    name: PriyaBommineni
+  - email: alexis.david@a4media.com
+    name: AlexisDavid
 type: application
 version: 1.5.1
 appVersion: "1.0.0"
