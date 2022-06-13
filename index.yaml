@@ -17,6 +17,23 @@ entries:
     urls:
     - https://github.com/cheddartv/helm-charts/releases/download/Antenna-1.5.1/Antenna-1.5.1.tgz
     version: 1.5.1
+  Appletv:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-06-13T20:57:49.052628429Z"
+    description: Helm Chart for localfirst/Appletv
+    digest: 5c1f7ca6644aa895b158676a98ca5c3a0f48c2a101d04f5f9b112ed32e57c001
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: priya.bommineni@cheddar.com
+      name: PriyaBommineni
+    name: Appletv
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/Appletv-1.5.0/Appletv-1.5.0.tgz
+    version: 1.5.0
   DigitalAudience:
   - apiVersion: v2
     appVersion: 1.0.0
