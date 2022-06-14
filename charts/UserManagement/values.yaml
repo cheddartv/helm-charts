@@ -1,6 +1,6 @@
 deployment:
   namespace: ${infra.kubernetes.namespace}
-  configmap__name: "digitalaudience"
+  configmap__name: "usermanagement"
   env:
     config:
     secrets:
