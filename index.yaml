@@ -1,5 +1,22 @@
 apiVersion: v1
 entries:
+  AliceReporting:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-06-15T15:02:48.735206633Z"
+    description: Helm Chart for localfirst/MediaPlan
+    digest: c50ab5597465ad51ee777df16bf7ea62c165e3072922a53daea3bfc5b0ecc8ed
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: priya.bommineni@cheddar.com
+      name: PriyaBommineni
+    name: AliceReporting
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/AliceReporting-1.5.0/AliceReporting-1.5.0.tgz
+    version: 1.5.0
   Antenna:
   - apiVersion: v2
     appVersion: 1.0.0
