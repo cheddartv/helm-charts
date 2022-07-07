@@ -1,4 +1,4 @@
-#Plan - Helm chart
+#AliceComponents - Helm chart
 
 helm chart for the deployment of alicecomponent service in localfirst repo
 
