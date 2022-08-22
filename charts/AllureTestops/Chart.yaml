@@ -1,0 +1,38 @@
+apiVersion: v2
+name: allure-testops
+version: 4.4.3
+appVersion: 4.4.3
+
+description: Allure TestOps
+
+kubeVersion: '>= 1.14.0-0'
+
+home: https://qameta.io
+sources:
+  - https://hub.docker.com/r/allure/allure-ui
+  - https://hub.docker.com/r/allure/allure-uaa
+  - https://hub.docker.com/r/allure/allure-report
+
+maintainers:
+  - name: eroshenkoam
+    email: eroshenkoam@qameta.io
+  - name: Andrey Ryoo
+    email: andrey.ryoo@qameta.io
+
+dependencies:
+  - name: rabbitmq
+    version: 10.1.14
+    repository: https://charts.bitnami.com/bitnami
+    condition: rabbitmq.enabled
+  - name: postgresql
+    version: 11.6.16
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: redis
+    version: 17.0.1
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+  - name: minio
+    version: 11.7.9
+    repository: https://charts.bitnami.com/bitnami
+    condition: minio.enabled

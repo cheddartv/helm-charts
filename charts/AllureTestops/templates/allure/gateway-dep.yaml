@@ -1,0 +1,193 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "allure-testops.gateway.fullname" . }}
+  labels:
+    app: {{ template "allure-testops.gateway.fullname" . }}
+    version: v1
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.gateway.replicaCount }}
+  strategy:
+{{ toYaml .Values.strategy | indent 4 }}
+  selector:
+    matchLabels:
+      app: {{ template "allure-testops.gateway.fullname" . }}
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: {{ template "allure-testops.gateway.fullname" . }}
+        version: v1
+      annotations:
+        co.elastic.logs/multiline.pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:"
+        co.elastic.logs/multiline.match: after
+        co.elastic.logs/multiline.negate: "true"
+    spec:
+{{- if .Values.rbac.enabled }}
+      serviceAccountName:  {{ template "allure-testops.name" . }}-sa
+{{- end }}
+      imagePullSecrets:
+      - name: {{ .Values.registry.imagePullSecret }}
+      tolerations:
+{{ toYaml .Values.gateway.tolerations | indent 8 }}
+{{- if .Values.gateway.affinity }}
+      affinity:
+{{ toYaml .Values.gateway.affinity | indent 8 }}
+{{- end }}
+{{- if .Values.gateway.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.gateway.nodeSelector | indent 8 }}
+{{- end }}
+      containers:
+      - name: {{ template "allure-testops.gateway.fullname" . }}
+        image: "{{ .Values.registry.repo }}/{{ .Values.registry.name }}/{{ .Values.gateway.image }}:{{ .Values.version | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.registry.pullPolicy }}
+        {{- if .Values.containerSecurityContext.enabled }}
+        securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 10 }}
+        {{- end }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.gateway.service.port }}
+        env:
+        - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWKSETURI
+          value: "http://{{ template "allure-testops.gateway.fullname" . }}:{{ .Values.gateway.service.port }}/.well-known/jwks.json"
+{{- range $name, $value := .Values.gateway.env.open }}
+        - name: {{ $name | quote }}
+          value: {{ $value | quote }}
+{{- end }}
+{{- $secret_name := include "allure-testops.secret.name" . }}
+{{- if .Values.redis.sentinel.enabled }}
+        - name: SPRING_REDIS_SENTINEL_NODES
+          value: "{{ .Values.redis.sentinel.nodes }}"
+        - name: SPRING_REDIS_SENTINEL_MASTER
+          value: "{{ .Values.redis.sentinel.masterSet }}"
+        - name: SPRING_REDIS_SENTINEL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: "redisPass"
+{{- else }}
+{{- if .Values.redis.enabled }}
+        - name: SPRING_REDIS_HOST
+          value: "{{ template "allure-testops.redis.fullname" . }}"
+{{- else }}
+        - name: SPRING_REDIS_HOST
+          value: "{{ .Values.redis.host }}"
+{{- end }}
+        - name: SPRING_REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: "redisPass"
+{{- end }}
+        - name: ALLURE_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: "jwtSecret"
+        - name: ALLURE_JWT_ACCESS_TOKEN_VALIDITY_SECONDS
+          value: "{{ .Values.allure.sessionLifespan }}"
+        - name: SPRING_OUTPUT_ANSI_ENABLED
+          value: "never"
+        - name: ALLURE_SECURE
+          value: "{{ .Values.allure.secureCookies }}"
+        - name: TZ
+          value: "{{ .Values.allure.timeZone }}"
+        - name: LOGGING_LEVEL_IO_QAMETA_ALLURE
+          value: "{{ .Values.allure.logging }}"
+        - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY
+          value: "{{ .Values.allure.logging }}"
+        - name: SPRING_SESSION_STORE_TYPE
+          value: "REDIS"
+        - name: SPRING_PROFILES_ACTIVE
+          value: "kubernetes"
+        - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+          value: "{{ .Values.allure.management.expose }}"
+        - name: MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIME-TO-LIVE
+          value: "{{ .Values.allure.management.cacheTTL }}"
+{{- if .Values.allure.auth.oidc.enabled }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENTNAME
+          value: {{ .Values.allure.auth.oidc.client.name }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_REDIRECTURI
+          value: {{ .Values.allure.auth.oidc.redirectURI }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_SCOPE
+          value: {{ .Values.allure.auth.oidc.scope }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUERURI
+          value: {{ .Values.allure.auth.oidc.issuerURI }}
+{{- if .Values.allure.auth.oidc.authMethod }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENTAUTHENTICATIONMETHOD
+          value: {{ .Values.allure.auth.oidc.authMethod }}
+{{- end }}
+{{- if .Values.allure.auth.oidc.authURI }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_AUTHORIZATIONURI
+          value: {{ .Values.allure.auth.oidc.authURI }}
+{{- end }}
+{{- if .Values.allure.auth.oidc.tokenURI }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_TOKENURI
+          value: {{ .Values.allure.auth.oidc.tokenURI }}
+{{- end }}
+{{- if .Values.allure.auth.oidc.userInfoURI }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_USERINFOURI
+          value: {{ .Values.allure.auth.oidc.userInfoURI }}
+{{- end }}
+{{- if .Values.allure.auth.oidc.jwksURI }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_JWKSETURI
+          value: {{ .Values.allure.auth.oidc.jwksURI }}
+{{- end }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_USERNAMEATTRIBUTE
+          value: {{ .Values.allure.auth.oidc.userNameAttribute }}
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENTID
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: clientId
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENTSECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: clientSecret
+{{- end }}
+{{- if .Values.allure.auth.saml.enabled }}
+        - name: SPRING_SECURITY_SAML2_RELYINGPARTY_REGISTRATION_{{ .Values.allure.auth.saml.provider | upper }}_ACS_LOCATION
+          value: "{{ .Values.allure.auth.saml.ACSLocation }}"
+        - name: SPRING_SECURITY_SAML2_RELYINGPARTY_REGISTRATION_{{ .Values.allure.auth.saml.provider | upper }}_ENTITYID
+          value: "{{ .Values.allure.auth.saml.entityId }}"
+        - name: SPRING_SECURITY_SAML2_RELYINGPARTY_REGISTRATION_{{ .Values.allure.auth.saml.provider | upper }}_IDENTITYPROVIDER_METADATAURI
+          value: "{{ .Values.allure.auth.saml.identityProviderMetadataUri }}"
+{{- end }}
+{{- if .Values.certificates.endpoints }}
+        - name: TLS_ENDPOINTS
+          value: "{{ .Values.certificates.endpoints }}"
+{{- end }}
+        - name: ALLURE_EE_REPORT_SERVICE_HOST
+          value: "{{ template "allure-testops.report.fullname" . }}"
+        - name: ALLURE_EE_REPORT_SERVICE_PORT
+          value: "{{ .Values.report.service.port }}"
+        - name: ALLURE_EE_UAA_SERVICE_HOST
+          value: "{{ template "allure-testops.uaa.fullname" . }}"
+        - name: ALLURE_EE_UAA_SERVICE_PORT
+          value: "{{ .Values.uaa.service.port }}"
+        - name: ALLURE_EE_GATEWAY_SERVICE_HOST
+          value: "{{ template "allure-testops.gateway.fullname" . }}"
+        - name: ALLURE_EE_GATEWAY_SERVICE_PORT
+          value: "{{ .Values.gateway.service.port }}"
+{{- if .Values.gateway.probes.enabled }}
+        livenessProbe:
+          httpGet:
+            path: /management/health
+            port: http
+{{ toYaml .Values.gateway.probes.liveness.probe | indent 10 }}
+        readinessProbe:
+          httpGet:
+            path: /management/health
+            port: http
+{{ toYaml .Values.gateway.probes.readiness.probe | indent 10 }}
+{{- end }}
+{{- with .Values.gateway.resources }}
+        resources:
+{{ toYaml . | indent 10 }}
+{{- end }}
