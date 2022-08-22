@@ -4,6 +4,9 @@ description: Helm Chart for localfirst/AllureTestops
 home: https://cheddartv.github.io/helm-charts
 sources:
   - https://cheddartv.github.io/helm-charts
+  - https://hub.docker.com/r/allure/allure-ui
+  - https://hub.docker.com/r/allure/allure-uaa
+  - https://hub.docker.com/r/allure/allure-report
 maintainers:
   - email: priya.bommineni@cheddar.com
     name: PriyaBommineni
