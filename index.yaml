@@ -151,6 +151,23 @@ entries:
     urls:
     - https://github.com/cheddartv/helm-charts/releases/download/DigitalPlan-1.5.0/DigitalPlan-1.5.0.tgz
     version: 1.5.0
+  DigitalRecommendations:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-11-16T15:50:05.732099569Z"
+    description: Support for Env variables, fetching values from Azure Vault
+    digest: a32ba84147f8bec9b19092c4765cd0e715baaff281621514a7d78fcd679289c6
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: DigitalRecommendations
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/DigitalRecommendations-1.5.1/DigitalRecommendations-1.5.1.tgz
+    version: 1.5.1
   Directv:
   - apiVersion: v2
     appVersion: 1.0.0
