@@ -8,5 +8,5 @@ maintainers:
   - email: pankaj.narang@cheddar.com
     name: PankajNarang
 type: application
-version: 1.5.1
+version: 1.5.2
 appVersion: "1.0.0"
