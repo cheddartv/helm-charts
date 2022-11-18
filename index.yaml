@@ -154,6 +154,22 @@ entries:
   DigitalRecommendations:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-11-18T18:11:16.489014716Z"
+    description: Support for Env variables, fetching values from Azure Vault
+    digest: fe620ef8012417c2adac2407df29a9554da802a28e9e77b044e811a957386c02
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: DigitalRecommendations
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/DigitalRecommendations-1.5.2/DigitalRecommendations-1.5.2.tgz
+    version: 1.5.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-11-16T15:50:05.732099569Z"
     description: Support for Env variables, fetching values from Azure Vault
     digest: a32ba84147f8bec9b19092c4765cd0e715baaff281621514a7d78fcd679289c6
