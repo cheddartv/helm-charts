@@ -71,6 +71,22 @@ entries:
   CreativeManager:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-12-12T20:17:06.86808746Z"
+    description: Helm Chart for localfirst/CreativeManager
+    digest: b0b5466356d8f2901df4160ad9cd5044095f244e4a8bb6c35e67c15a9850b54e
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: CreativeManager
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/CreativeManager-1.5.2/CreativeManager-1.5.2.tgz
+    version: 1.5.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-11-24T21:46:14.008210107Z"
     description: Helm Chart for localfirst/CreativeManager
     digest: e08b70da35a4b4e8f188b8fcabe82c80bed05166ff9315c1e307e236d693db26
