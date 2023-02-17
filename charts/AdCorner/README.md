@@ -1,4 +1,4 @@
-#Plan - Helm chart
+#AdCorner - Helm chart
 
 helm chart for the deployment of adcorner service
 
