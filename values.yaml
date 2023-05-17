@@ -1,0 +1,91 @@
+deployment:
+  namespace: ${infra.kubernetes.namespace} 
+  configmap__name: "digitalplan"
+  main:
+    name: digitalplan
+    replicas: 1
+    image: ${artifact.metadata.image}
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    volumes:
+      - name: secrets-store-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "digital-kv-provider"
+    volumeMounts:
+      - name: secrets-store-inline
+        mountPath: "/mnt/secrets-store"
+        readOnly: true
+        
+  env:
+    config:
+      Redis__ConnectionString: "redis:6379,abortConnect=false,allowAdmin=true,connectTimeout=30000,responseTimeout=30000"
+      OrderUrl: "http://order-svc:80/graphql/"
+      SalesforceUrl: "http://salesforce-svc:80/graphql/"
+      DigitalAudienceUrl: "http://digitalaudience-svc:80/graphql/"
+      DigitalRecommendationsUrl: "http://digitalrecommendations-svc:80/graphql/"
+      CensusUrl: "http://census-svc:80/graphql"     
+      ASPNETCORE_ENVIRONMENT: "Development"
+      AzureEmailQueueOptions__QueueName: "emailsender-queue"
+      ApplicationInsights__ConnectionString: InstrumentationKey=aea19920-bf0a-4f6a-9af2-598185ff93ea;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/
+      AzureBlobStorageOptions__ContainerName: "digital-creative-files"
+      AzureBlobStorageOptions__StorageQueueName: "digitalplan-creativefiles-queue"
+      AzureBlobStorageOptions__IsEnabled: true      
+      Auth__Authority: "https://a4media-dev.us.auth0.com/"
+      Auth__RequiredAuthorization: true
+      AzureEmailQueueOptions__PlanPaymentCcEmails: "tyler.andreasen@a4media.com,daniel.chianese@a4media.com"
+      ProjectOptions__WebUrl: "https://digital-dev.aaaadev.com/"
+      Export__Endpoint: "https://digitalplan-dev.aaaadev.com/api/export"
+      Cors__Origin: "http://localhost:3000,https://digital-dev.aaaadev.com"
+      Auth__Audience: "https://frontend-dev.aaaadev.com/api"
+      AzureOperativeOptions__ContainerName: "operative-files-development"
+      DspProcessEventQueue__QueueName: "dsp-process-event-queue"
+      DigitalDspPushStatusQueue__QueueName: "digital-dsp-push-status-queue"
+      DigitalDspPushStatusQueue__IsEnabled: true
+      DigitalExternalPlanReviewEmailOptions__OriginPlanApprovers: "dev@a4media.com,tyler.andreasen@a4media.com,daniel.chianese@a4media.com"
+      DigitalExternalPlanReviewEmailOptions__FilteredPlanApprovers: "daniel.chianese@a4media.com,tyler.andreasen@a4media.com"
+      DigitalExternalPlanReviewEmailOptions__BlacklistAdvertisers: ""
+      DigitalPlanPaidOptions__CreditTeam: "dev@a4media.com"
+    variable:
+    - name: ConnectionStrings__DigitalPlanDbConnection
+      valueFrom:
+        secretKeyRef:
+          name: digitalplan-secrets
+          key: ConnectionStringsDigitalPlanDbConnection
+    - name: AzureBlobStorageOptions__ContainerName
+      valueFrom:
+        secretKeyRef:
+          name: digitalplan-secrets
+          key: AzureBlobStorageOptionsContainerName
+    - name: AzureBlobStorageOptions__StorageQueueName
+      valueFrom:
+        secretKeyRef:
+          name: digitalplan-secrets
+          key: AzureBlobStorageOptionsStorageQueueName
+    - name: AzureEmailQueueOptions__ConnectionString
+      valueFrom:
+        secretKeyRef:
+          name: digitalplan-secrets
+          key: AzureEmailQueueOptionsConnectionString
+    - name: AzureBlobStorageOptions__AzureBlobConnectionString
+      valueFrom:
+        secretKeyRef:
+          name: digitalplan-secrets
+          key: AzureBlobStorageOptionsAzureBlobConnectionString
+    - name: AzureOperativeOptions__ConnectionString
+      valueFrom:
+        secretKeyRef:
+          name: digitalplan-secrets
+          key: AzureOperativeOptionsConnectionString
+    - name: DigitalDspPushStatusQueue__ConnectionString
+      valueFrom:
+        secretKeyRef:
+          name: digitalplan-secrets
+          key: DigitalDspPushStatusQueueConnectionString

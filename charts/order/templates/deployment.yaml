@@ -63,9 +63,9 @@ spec:
             {{- if .Values.deployment.readiness_httpHeaders}}
             httpHeaders: {{.Values.deployment.readiness_httpHeaders | toYaml | trim | nindent 12}}
             {{- end}}
-          initialDelaySeconds: {{or .Value.deployment.readiness_delay 5}}
-          failureThreshold: {{or .Value.deployment.readiness_failure_threshold 5}}
-          periodSeconds: {{or .Value.deployment.readiness_period 3}}
+          initialDelaySeconds: {{or .Values.deployment.readiness_delay 5}}
+          failureThreshold: {{or .Values.deployment.readiness_failure_threshold 5}}
+          periodSeconds: {{or .Values.deployment.readiness_period 3}}
         {{- end}}
         {{- if .Values.deployment.liveness_path}}
         livenessProbe:
@@ -75,9 +75,9 @@ spec:
             {{- if .Values.deployment.liveness_httpHeaders}}
             httpHeaders: {{.Values.deployment.liveness_httpHeaders | toYaml | trim | nindent 12}}
             {{- end}}
-          initialDelaySeconds: {{or .Value.deployment.liveness_delay 5}}
-          failureThreshold: {{or .Value.deployment.liveness_failure_threshold 5}}
-          periodSeconds: {{or .Value.deployment.liveness_period 3}}
+          initialDelaySeconds: {{or .Values.deployment.liveness_delay 5}}
+          failureThreshold: {{or .Values.deployment.liveness_failure_threshold 5}}
+          periodSeconds: {{or .Values.deployment.liveness_period 3}}
         {{- end}}
         {{- if or .Values.deployment.env.config .Values.deployment.env.secrets}}
         envFrom:
