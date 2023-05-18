@@ -484,6 +484,22 @@ entries:
   order:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-05-18T18:47:42.25748306Z"
+    description: A Helm chart for Kubernetes
+    digest: 869418fe8e49bd2d6497ba829272cd78b20c68760bf72905bccc24ba07c6979e
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: order
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/order-1.0.1/order-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2021-11-08T16:19:31.428878215Z"
     description: A Helm chart for Kubernetes
     digest: 8a03c6bde6c84a827592630b583dc9fd31d512143200f5e5947252cb82f6d44c
