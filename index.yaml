@@ -138,6 +138,22 @@ entries:
   DigitalAudience:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-05-18T17:01:35.948023413Z"
+    description: Support for Env variables, fetching values from Azure Vault
+    digest: 63ce94eb4e2f008d184342ca924be74c5e613a3b74c0c52e39d6c8864e4d823a
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: DigitalAudience
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/DigitalAudience-1.5.2/DigitalAudience-1.5.2.tgz
+    version: 1.5.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-06-07T07:39:55.081866283Z"
     description: Support for Env variables, fetching values from Azure Vault
     digest: d1fb7894162cf0123be515b763540abac58367cc5db61ecf9fd0bbc871450312
