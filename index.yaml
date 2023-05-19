@@ -320,6 +320,22 @@ entries:
   Febreze:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-05-19T18:22:59.973816007Z"
+    description: Support for Env variables, fetching values from Azure Vault
+    digest: 05c4a23c85d807e4bf30f0ca42da023c89340969e08884f91a6dbf195c115ed4
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: priya.bommineni@cheddar.com
+      name: PriyaBommineni
+    name: Febreze
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/Febreze-1.5.2/Febreze-1.5.2.tgz
+    version: 1.5.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-06-08T19:56:32.913973357Z"
     description: Support for Env variables, fetching values from Azure Vault
     digest: 1d1eb3f92a0626b143f8075177b80339a2f5af59ca52c3277525a80de7c587cf
