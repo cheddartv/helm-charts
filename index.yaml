@@ -286,6 +286,22 @@ entries:
   Directv:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-05-19T19:12:09.204112509Z"
+    description: Support for the Prometheus Exporter
+    digest: 38d9cb303d4937334ca1db468fd84c931a63cd1caa72b1b9d60b9e2ff5fa9910
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: priya.bommineni@cheddar.com
+      name: PriyaBommineni
+    name: Directv
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/Directv-1.5.2/Directv-1.5.2.tgz
+    version: 1.5.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-03-08T20:36:26.753015508Z"
     description: Support for the Prometheus Exporter
     digest: 88fbcea61205cbc9c19bae3797d3863905fc34e3292c063310462c4ebd00babe
