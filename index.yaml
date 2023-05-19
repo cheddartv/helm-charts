@@ -353,6 +353,22 @@ entries:
   Reporting:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-05-19T17:59:22.681462453Z"
+    description: Helm Chart for localfirst/Reporting
+    digest: 0e088d1554fa9fd4ff2924c6dc7609e26042234d75936bdb7c5a0b24d37033a5
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: Reporting
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/Reporting-1.5.1/Reporting-1.5.1.tgz
+    version: 1.5.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-01-11T03:07:48.696046458Z"
     description: Helm Chart for localfirst/Reporting
     digest: 475cbbc4dc9f30f02650ee9c25cf4994e1d07d545ffea81b72c762c9dec2401b
