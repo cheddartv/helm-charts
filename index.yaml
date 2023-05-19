@@ -370,6 +370,22 @@ entries:
   UserManagement:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-05-19T17:32:15.115380672Z"
+    description: A Helm chart for UserManagement service in localfirst
+    digest: 074e27d3cd95f30149082b8accda50fd0181b8c3d4c7e41673ff4561bf5ed533
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: UserManagement
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/UserManagement-1.5.3/UserManagement-1.5.3.tgz
+    version: 1.5.3
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-06-14T02:08:37.255747003Z"
     description: A Helm chart for UserManagement service in localfirst
     digest: 2de88a878c05aa0382e0c0aefefd4ab9d90e09eb4d017c272b293eb07b7720a5
