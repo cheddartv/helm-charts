@@ -1,0 +1,68 @@
+deployment:
+  namespace: ${infra.kubernetes.namespace}
+  configmap__name: "usermanagement"
+  main:
+    name: usermanagement
+    replicas: 1
+    image: ${artifact.metadata.image}
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    readiness_path: /health    
+    readiness_port: 80
+    readiness_delay: 5
+    readiness_failure_threshold: 5
+    readiness_period: 3
+
+    liveness_path: /health
+    liveness_port: 80
+    liveness_delay: 5
+    liveness_failure_threshold: 5
+    liveness_period: 3
+    
+    volumes:
+      - name: secrets-store-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "digital-kv-provider"
+    volumeMounts:
+      - name: secrets-store-inline
+        mountPath: "/mnt/secrets-store"
+        readOnly: true
+
+  env:
+    config:
+      Auth0__Authority: "https://a4media-dev.us.auth0.com"
+      Auth0__TokenEndpoint: "https://a4media-dev.us.auth0.com/oauth/token" 
+      Auth0__Audience: "https://frontend-dev.aaaadev.com/api"
+      Auth0__RequiredAuthorization: false
+      Auth0__LoginUrl: "https://digital-dev.aaaadev.com/api/auth/login"
+      ApiGateway__GateWayUrl: "https://gateway-dev.aaaadev.com/graphql/"
+      AzureEmailQueueOptions__QueueName: "emailsender-queue"
+      RedisUrl: "redis:6379,abortConnect=false"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      SalesforceUrl: "https://salesforce-dev.aaaadev.com/graphql/"
+      ApplicationInsights__ConnectionString: "InstrumentationKey=aea19920-bf0a-4f6a-9af2-598185ff93ea;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/"
+      
+    variable:
+    - name: Auth0__ClientId
+      valueFrom:
+        secretKeyRef:
+          name: usermanagement-secrets
+          key: Auth0ClientId
+    - name: Auth0__ClientSecret
+      valueFrom:
+        secretKeyRef:
+          name: usermanagement-secrets
+          key: Auth0ClientSecret
+    - name: AzureEmailQueueOptions__ConnectionString
+      valueFrom:
+        secretKeyRef:
+          name: usermanagement-secrets
+          key: AzureEmailQueueOptionsConnectionString
