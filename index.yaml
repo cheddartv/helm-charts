@@ -71,6 +71,22 @@ entries:
   Antenna:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-05-19T19:34:42.106318864Z"
+    description: Initial Helm chart release
+    digest: f92d3da0d397f346a6238228d5a4f0fc07337d2af5f92fb73b7a34b717868cc5
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: alexis.david@a4media.com
+      name: AlexisDavid
+    name: Antenna
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/Antenna-1.5.2/Antenna-1.5.2.tgz
+    version: 1.5.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-06-10T19:26:21.866458005Z"
     description: Initial Helm chart release
     digest: a05dde2d2604cad0199b57d81d7db54dd9a71f643b3225686f57710f7cc1f0e1
