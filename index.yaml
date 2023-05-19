@@ -20,6 +20,22 @@ entries:
   AliceComponents:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-05-19T20:13:37.587511997Z"
+    description: Helm Chart for localfirst/AliceComponents
+    digest: c404bdb624f056c771f97f086b043d950f6f2aedd2f76321c2aeb7ca3152e5bc
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: priya.bommineni@cheddar.com
+      name: PriyaBommineni
+    name: AliceComponents
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/AliceComponents-1.5.1/AliceComponents-1.5.1.tgz
+    version: 1.5.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-07-07T17:44:35.279823981Z"
     description: Helm Chart for localfirst/AliceComponents
     digest: 4135afddd4311896e9bf8cb3bdf67112a601c0781c46c428ec46fd25887e131b
