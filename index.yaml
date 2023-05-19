@@ -187,6 +187,22 @@ entries:
   DigitalFrontend:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-05-19T19:22:41.090468946Z"
+    description: Support for Env variables, fetching values from Azure Vault
+    digest: b2aee66dc4a796aa69629c07835591579d4532b0b610b4c49b2adc94a40e71b5
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: DigitalFrontend
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/DigitalFrontend-1.5.2/DigitalFrontend-1.5.2.tgz
+    version: 1.5.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-06-10T19:04:47.238777311Z"
     description: Support for Env variables, fetching values from Azure Vault
     digest: 01ae5ae3de50fccaa633db5bbee52e7a934a935bc36b27fae0ac63f53034b7ee
