@@ -3,6 +3,22 @@ entries:
   AdCorner:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-05-22T12:57:41.737180345Z"
+    description: Helm Chart for AdCorner
+    digest: dde4925fd6b843340140e3931aa0879aa73e1e6ed1fc4a715a8f334c0c43a3a2
+    home: https://cheddartv.github.io/helm-charts
+    maintainers:
+    - email: pankaj.narang@cheddar.com
+      name: PankajNarang
+    name: AdCorner
+    sources:
+    - https://cheddartv.github.io/helm-charts
+    type: application
+    urls:
+    - https://github.com/cheddartv/helm-charts/releases/download/AdCorner-1.5.2/AdCorner-1.5.2.tgz
+    version: 1.5.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2023-02-22T16:44:15.129441186Z"
     description: Helm Chart for AdCorner
     digest: 79e8e009e0ce88d8b560af6271845caab98d7ebe41f05abfeff66e63b08e961e
