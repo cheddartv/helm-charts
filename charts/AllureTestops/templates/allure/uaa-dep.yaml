@@ -1,0 +1,246 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "allure-testops.uaa.fullname" . }}
+  labels:
+    app: {{ template "allure-testops.uaa.fullname" . }}
+    version: v1
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.uaa.replicaCount }}
+  strategy:
+{{ toYaml .Values.strategy | indent 4 }}
+  selector:
+    matchLabels:
+      app: {{ template "allure-testops.uaa.fullname" . }}
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: {{ template "allure-testops.uaa.fullname" . }}
+        version: v1
+      annotations:
+        co.elastic.logs/multiline.pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:"
+        co.elastic.logs/multiline.match: after
+        co.elastic.logs/multiline.negate: "true"
+    spec:
+{{- if .Values.rbac.enabled }}
+      serviceAccountName:  {{ template "allure-testops.name" . }}-sa
+{{- end }}
+      imagePullSecrets:
+        - name: {{ .Values.registry.imagePullSecret }}
+      tolerations:
+{{ toYaml .Values.uaa.tolerations | indent 8 }}
+{{- if .Values.uaa.affinity }}
+      affinity:
+{{ toYaml .Values.uaa.affinity | indent 8 }}
+{{- end }}
+{{- if .Values.uaa.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.uaa.nodeSelector | indent 8 }}
+{{- end }}
+{{- if .Values.postgresql.enabled }}
+      initContainers:
+        - name: check-db-ready
+          image: postgres:9.6.5
+          command: [ 'sh', '-c',
+            'until pg_isready -h {{ template "allure-testops.postgresql.fullname" . }} -p 5432;
+             do echo waiting for database; sleep 2; done;' ]
+{{- end }}
+      containers:
+      - name: {{ template "allure-testops.uaa.fullname" . }}
+        image: "{{ .Values.registry.repo }}/{{ .Values.registry.name }}/{{ .Values.uaa.image }}:{{ .Values.version | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.registry.pullPolicy }}
+        {{- if .Values.containerSecurityContext.enabled }}
+        securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 10 }}
+        {{- end }}
+        ports:
+        - name: http
+          containerPort: 8082
+{{- $secret_name := include "allure-testops.secret.name" . }}
+        env:
+        - name: ALLURE_ENDPOINT
+{{- if .Values.network.tls.enabled }}
+          value: "https://{{ .Values.host }}"
+{{- else }}
+          value: "http://{{ .Values.host }}"
+        - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWKSETURI
+          value: "http://{{ template "allure-testops.gateway.fullname" . }}:{{ .Values.gateway.service.port }}/.well-known/jwks.json"
+{{- end }}
+{{- if .Values.postgresql.enabled }}
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://{{ template "allure-testops.postgresql.fullname" . }}/uaa"
+{{- else }}
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://{{ .Values.postgresql.external.uaaHost }}:{{ .Values.postgresql.external.uaaPort }}/{{ .Values.postgresql.external.uaaDbName }}?sslmode={{ .Values.postgresql.external.sslMode}}"
+{{- end }}
+{{- if .Values.certificates.endpoints }}
+        - name: TLS_ENDPOINTS
+          value: "{{ .Values.certificates.endpoints }}"
+{{- end }}
+        - name: ALLURE_REGISTRATION_ENABLED
+          value: "{{ .Values.allure.registrationEnabled }}"
+        - name: ALLURE_REGISTRATION_AUTOAPPROVE
+          value: "{{ .Values.allure.autoApprove }}"
+        - name: ALLURE_REGISTRATION_DEFAULT_ROLE
+          value: {{ .Values.allure.auth.defaultRole }}
+{{- range $name, $value := .Values.uaa.env.open }}
+        - name: {{ $name | quote }}
+          value: {{ $value | quote }}
+{{- end }}
+        - name: ALLURE_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: "jwtSecret"
+        - name: "ALLURE_SECURITY_USER_NAME"
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: "username"
+        - name: "ALLURE_CRYPTO_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: "password"
+        - name: "ALLURE_SECURITY_USER_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: "password"
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: uaaDbUser
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: uaaDbPass
+        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+          value: "org.postgresql.Driver"
+        - name: SPRING_JPA_DATABASE_PLATFORM
+          value: "org.hibernate.dialect.PostgreSQL9Dialect"
+        - name: SPRING_JPA_PROPERTIES_HIBERNATE_GLOBALLY_QUOTED_IDENTIFIERS
+          value: 'true'
+        - name: TZ
+          value: "{{ .Values.allure.timeZone }}"
+        - name: SERVER_SERVLET_CONTEXTPATH
+          value: "{{ .Values.allure.uaaContextPath }}"
+        - name: SPRING_OUTPUT_ANSI_ENABLED
+          value: "never"
+        - name: LOGGING_LEVEL_IO_QAMETA_ALLURE
+          value: "{{ .Values.allure.logging }}"
+        - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY
+          value: "{{ .Values.allure.logging }}"
+        - name: SPRING_PROFILES_ACTIVE
+          value: "kubernetes"
+        - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+          value: "{{ .Values.allure.management.expose }}"
+        - name: MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIME-TO-LIVE
+          value: "{{ .Values.allure.management.cacheTTL }}"
+        - name: MANAGEMENT_HEALTH_DISKSPACE_ENABLED
+          value: "false"
+        - name: MANAGEMENT_HEALTH_KUBERNETES_ENABLED
+          value: "false"
+        - name: SPRING_CLOUD_DISCOVERY_CLIENT_HEALTH_INDICATOR_ENABLED
+          value: "false"
+        - name: ALLURE_EE_REPORT_SERVICE_HOST
+          value: "{{ template "allure-testops.report.fullname" . }}"
+        - name: ALLURE_EE_REPORT_SERVICE_PORT
+          value: "{{ .Values.report.service.port }}"
+        - name: ALLURE_EE_UAA_SERVICE_HOST
+          value: "{{ template "allure-testops.uaa.fullname" . }}"
+        - name: ALLURE_EE_UAA_SERVICE_PORT
+          value: "{{ .Values.uaa.service.port }}"
+        - name: ALLURE_EE_GATEWAY_SERVICE_HOST
+          value: "{{ template "allure-testops.gateway.fullname" . }}"
+        - name: ALLURE_EE_GATEWAY_SERVICE_PORT
+          value: "{{ .Values.gateway.service.port }}"
+        - name: ALLURE_LOGIN_PRIMARY
+          value: {{ .Values.allure.auth.primary }}
+{{- if .Values.allure.auth.ldap.enabled }}
+        - name: ALLURE_LOGIN_LDAP_ENABLED
+          value: "{{ .Values.allure.auth.ldap.enabled }}"
+        - name: ALLURE_LOGIN_LDAP_REFERAL
+          value: "{{ .Values.allure.auth.ldap.referal }}"
+        - name: ALLURE_LOGIN_LDAP_URL
+          value: "{{ .Values.allure.auth.ldap.url }}"
+        - name: ALLURE_LOGIN_LDAP_USERDNPATTERNS
+          value: "{{ .Values.allure.auth.ldap.user.dnPatterns }}"
+        - name: ALLURE_LOGIN_LDAP_USERSEARCHBASE
+          value: "{{ .Values.allure.auth.ldap.user.searchBase }}"
+        - name: ALLURE_LOGIN_LDAP_USERSEARCHFILTER
+          value: "{{ .Values.allure.auth.ldap.user.searchFilter }}"
+        - name: ALLURE_LOGIN_LDAP_UIDATTRIBUTE
+          value: "{{ .Values.allure.auth.ldap.uidAttribute }}"
+        - name: ALLURE_LOGIN_LDAP_GROUPSEARCHBASE
+          value: "{{ .Values.allure.auth.ldap.group.searchBase }}"
+        - name: ALLURE_LOGIN_LDAP_GROUPSEARCHFILTER
+          value: "{{ .Values.allure.auth.ldap.group.searchFilter }}"
+        - name: ALLURE_LOGIN_LDAP_GROUPROLEATTRIBUTE
+          value: "{{ .Values.allure.auth.ldap.group.roleAttribute }}"
+{{- if .Values.allure.auth.ldap.syncRoles }}
+        - name: ALLURE_LOGIN_LDAP_SYNCROLES
+          value: "{{ .Values.allure.auth.ldap.syncRoles }}"
+        - name: ALLURE_LOGIN_LDAP_GROUPAUTHORITIES_ROLEUSERGROUPS
+          value: "{{ .Values.allure.auth.ldap.userGroupName }}"
+        - name: ALLURE_LOGIN_LDAP_GROUPAUTHORITIES_ROLEADMINGROUPS
+          value: "{{ .Values.allure.auth.ldap.adminGroupName }}"
+{{- end }}
+        - name: ALLURE_LOGIN_LDAP_USERDN
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: ldapUser
+        - name: ALLURE_LOGIN_LDAP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret_name }}
+              key: ldapPass
+{{- end }}
+{{- if .Values.smtp.enabled }}
+        - name: SPRING_MAIL_HOST
+          value: {{ .Values.smtp.host }}
+        - name: SPRING_MAIL_PORT
+          value: {{ .Values.smtp.port }}
+        - name: SPRING_MAIL_USERNAME
+          value: {{ .Values.smtp.username }}
+        - name: SPRING_MAIL_FROM
+          value: {{ .Values.smtp.from }}
+        - name: SPRING_MAIL_PASSWORD
+          value: {{ .Values.smtp.password }}
+        - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH
+          value: {{ .Values.smtp.authEnabled | quote }}
+        - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE
+          value: {{ .Values.smtp.startTLSEnabled | quote }}
+        - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED
+          value: {{ .Values.smtp.startTLSRequired | quote }}
+        - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_ENABLE
+          value: {{ .Values.smtp.sslEnabled | quote }}
+        - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_TRUST
+          value: {{ .Values.smtp.sslTrust | quote }}
+{{- end }}
+{{- if eq .Values.postgresql.external.sslMode "require" }}
+        - name: TLS_DB_ENDPOINTS
+          value: "{{ .Values.postgresql.external.uaaHost}}:{{ .Values.postgresql.external.uaaPort }}"
+{{- end }}
+{{- if .Values.uaa.probes.enabled }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.allure.uaaContextPath }}management/health
+            port: http
+{{ toYaml .Values.uaa.probes.liveness.probe | indent 10 }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.allure.uaaContextPath }}management/health
+            port: http
+{{ toYaml .Values.uaa.probes.readiness.probe | indent 10 }}
+{{- end }}
+{{- with .Values.uaa.resources }}
+        resources:
+{{ toYaml . | indent 10 }}
+{{- end }}
