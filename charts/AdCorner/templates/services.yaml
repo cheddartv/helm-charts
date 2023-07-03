@@ -1,0 +1,15 @@
+{{- if .Values.deployment.main}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.name}}-svc
+spec:
+  type: {{.Values.serviceType}}
+  ports:
+  - port: {{.Values.servicePort}}
+    targetPort: {{.Values.port}}
+    protocol: TCP
+    name: {{ .Values.portname}}
+  selector:
+    app: {{.Values.name}}
+{{- end}}
