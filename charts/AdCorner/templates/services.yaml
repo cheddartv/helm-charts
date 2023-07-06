@@ -1,15 +1,22 @@
-{{- if .Values.deployment.main}}
+{{- if .Values.service}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.Values.name}}-svc
+  name: {{.Values.service.name}}-svc
+  namespace: {{.Values.service.namespace}}
+  labels:
+    app: {{.Values.service.name}}
 spec:
-  type: {{.Values.serviceType}}
+  type: {{.Values.service.serviceType}}
   ports:
-  - port: {{.Values.servicePort}}
-    targetPort: {{.Values.port}}
+  - port: {{.Values.service.servicePort}}
+    targetPort: {{.Values.service.port}}
     protocol: TCP
-    name: {{ .Values.portname}}
+    name: {{ .Values.service.portname}}
   selector:
-    app: {{.Values.name}}
+    {{- if .Values.deployment.main.name}}
+    app: {{.Values.deployment.main.name}}
+    {{- else}}
+    app: {{.Values.service.name}}
+    {{- end}}
 {{- end}}
