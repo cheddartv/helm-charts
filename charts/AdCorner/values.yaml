@@ -1,6 +1,66 @@
+# These are all the test values to ensure that the helm template command is working
+
 deployment:
   namespace: ${infra.kubernetes.namespace}
-  configmap__name: "adcorner"
+  configmap__name: "test"
   env:
     config:
+      test-variable01: test-value
+      test-variable02: test-value
     secrets:
+    variable:
+      - name: test-secret-variable
+        valueFrom:
+          secretKeyRef:
+            name: test-secrets
+            key: testKey
+  autoscaling:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 50
+  main:
+    name: test
+    replicas: 1
+    image: ${artifact.metadata.image}
+    resources:
+      limits:
+        cpu: 10m
+        memory: 1Mi
+      requests:
+        cpu: 10m
+        memory: 1Mi
+
+    readiness_path: /ready
+    readiness_port: 80
+    readiness_delay: 15
+    readiness_failure_threshold: 5
+    readiness_period: 10
+
+    liveness_path: /live
+    liveness_port: 80
+    liveness_delay: 15
+    liveness_failure_threshold: 5
+    liveness_period: 10
+
+    volumes:
+      - name: test-volume
+        secret:
+          secretName: test
+          items:
+            - key: test-file.json
+              path: test-file.json
+      - name: test-volume02
+        csi:
+          driver: test-driver
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: test-class
+    volumeMounts:
+      - name: test
+        mountPath: /test/key
+        readOnly: true
+      - name: test-driver
+        mountPath: "/test/store"
+        readOnly: true
