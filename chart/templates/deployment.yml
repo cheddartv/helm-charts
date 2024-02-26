@@ -1,0 +1,246 @@
+{{- if .Values.deployments }}
+  {{- $root := . }}
+  {{- range $name, $deployment := .Values.deployments }}
+  {{- if not $deployment.disabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  namespace: {{ $.Values.namespace }}
+  labels:
+  {{ include "altice-chart.labels" $root | indent 4 }}
+app: {{ $name }}
+spec:
+  replicas: {{ $deployment.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $name }}
+  {{- if $deployment.strategy }}
+strategy:
+  {{ toYaml $deployment.strategy | indent 4 }}
+  {{- end }}
+template:
+  metadata:
+  {{- if $deployment.annotations }}
+annotations:
+  {{ toYaml $deployment.annotations | indent 8 }}
+  {{- end }}
+labels:
+  {{ include "altice-chart.labels" $root | indent 8 }}
+app: {{ $name }}
+spec:
+  {{- if $deployment.sa }}
+serviceAccountName: {{ $deployment.sa }}
+  {{- end }}
+  {{- if $deployment.dnsPolicy }}
+dnsPolicy: {{ $deployment.dnsPolicy }}
+  {{- end }}
+  {{- if $deployment.restartPolicy }}
+restartPolicy: {{ $deployment.restartPolicy }}
+  {{- end }}
+  {{- if $deployment.terminationGracePeriodSeconds }}
+terminationGracePeriodSeconds: {{ $deployment.terminationGracePeriodSeconds }}
+  {{- end }}
+  {{- if $deployment.nodeSelectors }}
+nodeSelector:
+  {{- range $key, $val := $deployment.nodeSelectors }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if $deployment.volumes }}
+volumes:
+  {{ toYaml $deployment.volumes | indent 6 }}
+  {{- end }}
+  {{- if $deployment.initContainers }}
+initContainers:
+  {{- end }}
+  {{- range $name, $init := $deployment.initContainers }}
+- name: "{{ if $init.name }}{{ $init.name }}{{ else }}init-{{ randAlphaNum 5 }}{{ end }}"
+  image: "{{ if $init.image.registry }}{{ $init.image.registry }}/{{ end }}{{ $init.image.repository }}:{{ if $init.image.tag }}{{ $init.image.tag }}{{ else }}{{ template "global.tag" $root }}{{ end }}"
+  imagePullPolicy: {{ $init.image.pullPolicy }}
+  {{- if $init.command }}
+command:
+  {{ toYaml $init.command | indent 8 }}
+  {{- end }}
+  {{- if $init.args }}
+args:
+  {{ toYaml $init.args | indent 8 }}
+  {{- end }}
+  {{- if $init.volumeMounts }}
+volumeMounts:
+  {{ toYaml $init.volumeMounts | indent 8 }}
+  {{- end }}
+  {{- if $init.securityContext }}
+securityContext:
+  {{ toYaml $init.securityContext | indent 10 }}
+  {{- end }}
+  {{- if or $init.extraVars $init.secretKeyRef }}
+env:
+  {{- end }}
+  {{- if $init.extraVars }}
+  {{- range $key, $val := $init.extraVars }}
+- name: {{ $key | quote }}
+  value: {{ $val | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if $init.secretKeyRef }}
+  {{ toYaml $init.secretKeyRef | indent 8 }}
+  {{- end }}
+  {{- if $init.resources }}
+resources:
+  {{ toYaml $init.resources | indent 10 }}
+  {{- end }}
+  {{- end }}
+containers:
+# single container mode
+  {{- if $deployment.image }}
+- name: {{ $name }}
+  image: "{{ if $deployment.image.registry }}{{ $deployment.image.registry }}/{{ end }}{{ $deployment.image.repository }}:{{ if $deployment.image.tag }}{{ $deployment.image.tag }}{{ else }}{{ template "global.tag" $root }}{{ end }}"
+  imagePullPolicy: "{{ if $deployment.image.pullPolicy }}{{ $deployment.image.pullPolicy }}{{ else }}Always{{ end }}"
+  {{- end }}
+  {{- if $deployment.command }}
+command:
+  {{ toYaml $deployment.command | indent 8 }}
+  {{- end }}
+  {{- if $deployment.args }}
+args:
+  {{ toYaml $deployment.args | indent 8 }}
+  {{- end }}
+  {{- if $deployment.containerPorts }}
+ports:
+  {{ toYaml $deployment.containerPorts | indent 8 }}
+  {{- end }}
+  {{- if $deployment.volumeMounts }}
+volumeMounts:
+  {{ toYaml $deployment.volumeMounts | indent 8 }}
+  {{- end }}
+  {{- if $deployment.securityContext }}
+securityContext:
+  {{ toYaml $deployment.securityContext | indent 10 }}
+  {{- end }}
+  {{- if $deployment.image }}
+env:
+  - name: NODE_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: spec.nodeName
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
+  - name: POD_NAMESPACE
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.namespace
+  - name: POD_IP
+    valueFrom:
+      fieldRef:
+        fieldPath: status.podIP
+  - name: POD_SERVICE_ACCOUNT
+    valueFrom:
+      fieldRef:
+        fieldPath: spec.serviceAccountName
+  {{- end }}
+  {{- if $deployment.extraVars }}
+  {{- range $key, $val := $deployment.extraVars }}
+- name: {{ $key | quote }}
+  value: {{ $val | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if $deployment.secretKeyRef }}
+  {{ toYaml $deployment.secretKeyRef | indent 8 }}
+  {{- end }}
+  {{- if $deployment.livenessProbe }}
+livenessProbe:
+  {{ toYaml $deployment.livenessProbe | indent 10 }}
+  {{- end }}
+  {{- if $deployment.readinessProbe }}
+readinessProbe:
+  {{ toYaml $deployment.readinessProbe | indent 10 }}
+  {{- end }}
+  {{- if $deployment.resources }}
+resources:
+  {{ toYaml $deployment.resources | indent 10 }}
+  {{- end }}
+# multi container mode
+  {{- range $name, $container := $deployment.containers }}
+- name: "{{ if $container.name }}{{ $container.name }}{{ else }}{{ randAlphaNum 5 }}{{ end }}"
+  image: "{{ if $container.image.registry }}{{ $container.image.registry }}/{{ end }}{{ $container.image.repository }}:{{ if $container.image.tag }}{{ $container.image.tag }}{{ else }}{{ template "global.tag" $root }}{{ end }}"
+  imagePullPolicy: {{ $container.image.pullPolicy }}
+  {{- if $container.command }}
+command:
+  {{ toYaml $container.command | indent 8 }}
+  {{- end }}
+  {{- if $container.args }}
+args:
+  {{ toYaml $container.args | indent 8 }}
+  {{- end }}
+  {{- if $container.containerPorts }}
+ports:
+  {{ toYaml $container.containerPorts | indent 8 }}
+  {{- end }}
+  {{- if $container.volumeMounts }}
+volumeMounts:
+  {{ toYaml $container.volumeMounts | indent 8 }}
+  {{- end }}
+  {{- if $container.securityContext }}
+securityContext:
+  {{ toYaml $container.securityContext | indent 10 }}
+  {{- end }}
+  {{- if $container.image }}
+env:
+  - name: NODE_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: spec.nodeName
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
+  - name: POD_NAMESPACE
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.namespace
+  - name: POD_IP
+    valueFrom:
+      fieldRef:
+        fieldPath: status.podIP
+  - name: POD_SERVICE_ACCOUNT
+    valueFrom:
+      fieldRef:
+        fieldPath: spec.serviceAccountName
+  {{- end }}
+  {{- if $container.extraVars }}
+  {{- range $key, $val := $container.extraVars }}
+- name: {{ $key | quote }}
+  value: {{ $val | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if $container.secretKeyRef }}
+  {{ toYaml $container.secretKeyRef | indent 8 }}
+  {{- end }}
+  {{- if $container.livenessProbe }}
+livenessProbe:
+  {{ toYaml $container.livenessProbe | indent 10 }}
+  {{- end }}
+  {{- if $container.readinessProbe }}
+readinessProbe:
+  {{ toYaml $container.readinessProbe | indent 10 }}
+  {{- end }}
+  {{- if $container.resources }}
+resources:
+  {{ toYaml $container.resources | indent 10 }}
+  {{- end }}
+  {{- end }}
+  {{- if $deployment.affinity }}
+affinity:
+  {{ toYaml $deployment.affinity | indent 8 }}
+  {{- end }}
+  {{- if $deployment.tolerations }}
+tolerations:
+  {{ toYaml $deployment.tolerations | indent 8 }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
